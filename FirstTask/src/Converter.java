@@ -7,7 +7,7 @@ public class Converter {
 
         Scanner scanner = new Scanner(System.in);
 
-        System.out.print("Введите рамзер файла в байтах: ");
+        System.out.print("Введите размер файла в байтах: ");
         float sizeInBytes = scanner.nextLong();
 
         printBytes(sizeInBytes);
