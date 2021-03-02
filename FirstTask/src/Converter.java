@@ -4,13 +4,27 @@ public class Converter {
 
     public static void main(String[] args) {
 
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Введите размер файла в байтах: ");
 
+        printBytes(checkNum());
+    }
+
+    public static float checkNum () {
+        float sizeInBytes = 0;
         Scanner scanner = new Scanner(System.in);
 
-        System.out.print("Введите размер файла в байтах: ");
-        float sizeInBytes = scanner.nextLong();
+        try {
+            sizeInBytes = scanner.nextFloat();
 
-        printBytes(sizeInBytes);
+        } catch (Exception e) {
+            System.out.print("Введено не число!" +
+                    "\nПовторите ввод: ");
+
+            return checkNum();
+        }
+
+        return sizeInBytes;
     }
 
     public static void printBytes(float sizeInBytes){
