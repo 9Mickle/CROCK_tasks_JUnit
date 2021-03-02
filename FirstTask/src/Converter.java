@@ -4,9 +4,7 @@ public class Converter {
 
     public static void main(String[] args) {
 
-        Scanner scanner = new Scanner(System.in);
         System.out.print("Введите размер файла в байтах: ");
-
         printBytes(checkNum());
     }
 
@@ -23,7 +21,6 @@ public class Converter {
 
             return checkNum();
         }
-
         return sizeInBytes;
     }
 
