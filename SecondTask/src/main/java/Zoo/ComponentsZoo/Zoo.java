@@ -7,7 +7,7 @@ import Zoo.ComponentsZoo.Enclosure;
 import java.util.Arrays;
 
 /**
- * Зоопарк
+ * Зоопарк.
  */
 public class Zoo {
 
@@ -15,16 +15,23 @@ public class Zoo {
     Employee[] employees = new Employee[] {}; //Сотрудники
     Enclosure[] enclosures = new Enclosure[] {}; //Вольеры
 
+
     /**
-     * Добавление животного
+     * Добавление животного.
+     *
+     * @param animal - животные.
      */
     public void addAnimal(Animal animal) {
         animals = Arrays.copyOf(animals, animals.length + 1);
         animals[animals.length - 1] = animal;
     }
 
+
     /**
-     * Добавление сотрудников и вольеров
+     * Добавление сотрудников и вольеров.
+     *
+     * @param employee - сотрудники.
+     * @param enclosure - вольеры.
      */
     public void addStaff(Employee employee, Enclosure enclosure) {
         employees = Arrays.copyOf(employees, employees.length + 1);
@@ -34,10 +41,13 @@ public class Zoo {
         enclosures[enclosures.length - 1] = enclosure;
     }
 
+
     /**
-     * Удаление животного
+     * Удаление животного.
+     *
+     * @param animal - животное.
      */
-    public void remove(Animal animal) {
+    private void remove(Animal animal) {
         final Animal[] newAnimals = new Animal[animals.length - 1];
         int index = 0;
 
@@ -49,36 +59,39 @@ public class Zoo {
         animals = newAnimals;
     }
 
+
     /**
-     * Чистка вольера
+     * Чистка вольера.
      *
-     * @param index
+     * @param index - индекс вольера.
      */
     public void clean(int index) {
         if (enclosures[index].isCleanStatus()) {
-            System.out.println("\nВольер " + enclosures[index] + " грязный");
+            System.out.println("\nВольер " + enclosures[index] + " - грязный");
             System.out.println("Сотрудник " + employees[index] + " почистил вольер " + enclosures[index]);
             enclosures[index].setCleanStatus(false);
-        } else System.out.println("\nВольер " + enclosures[index] + " чистый");
+        } else System.out.println("\nВольер " + enclosures[index] + " - чистый");
     }
 
+
     /**
-     * Кормление животного
+     * Кормление животного.
      *
-     * @param index
+     * @param index - индекс животного.
      */
     public void feed(int index) {
         if (animals[index].isFeedStatus()) {
-            System.out.println("\nЖивотное " + animals[index] + " голодное");
+            System.out.println("\nЖивотное " + animals[index] + " - голодное");
             System.out.println("Сотрудник " + employees[index] + " покормил животное " + animals[index]);
             animals[index].setFeedStatus(false);
-        } else System.out.println("\nЖивотное " + animals[index] + " покормлено");
+        } else System.out.println("\nЖивотное " + animals[index] + " - покормлено");
     }
 
+
     /**
-     * Болезнь животного
+     * Болезнь животного.
      *
-     * @param index
+     * @param index - индекс животного.
      */
     public void disease(int index) {
         if (animals[index].isDiseaseStatus()) {
@@ -86,36 +99,38 @@ public class Zoo {
         }
     }
 
+
     /**
-     * Поставить свободного сотрудника в конец списка
+     * Поставить свободного сотрудника в конец списка, в конце метода вызвается метод удаления записи от животном
      *
-     * @param animalIndex
-     * @param employee
-     * @param enclosure
+     * @param animalIndex - индекса животного в массиве, которое умерло.
+     * @param employee - работник отвечающий за это животное[animalIndex].
+     * @param enclosure - вольер предназначенный для этого животного[animalIndex].
      */
     public void swapElem(int animalIndex, Employee employee, Enclosure enclosure) {
-        Employee[] someEmployee = new Employee[] {}; //Для обмена
-        Enclosure[] someEnclosure = new Enclosure[] {};
-        someEmployee =  Arrays.copyOf(employees, employees.length);
-        someEnclosure = Arrays.copyOf(enclosures, enclosures.length);
+        Employee[] newEmployee = new Employee[] {}; // Новый массив для обмена сотрудников
+        Enclosure[] newEnclosure = new Enclosure[] {}; // Новый массив для обмена вольеров
+        newEmployee =  Arrays.copyOf(employees, employees.length);
+        newEnclosure = Arrays.copyOf(enclosures, enclosures.length);
 
-        someEmployee[employees.length - 1] = employees[animalIndex];
-        employees[animalIndex] = someEmployee[employees.length - 1];
-        someEmployee[animalIndex] = employees[employees.length - 1];
-        employees = someEmployee;
+        //Процесс обмена сотрудников
+        newEmployee[employees.length - 1] = employees[animalIndex];
+        employees[animalIndex] = newEmployee[employees.length - 1];
+        newEmployee[animalIndex] = employees[employees.length - 1];
+        employees = newEmployee;
 
-        someEnclosure[enclosures.length - 1] = enclosures[animalIndex];
-        enclosures[animalIndex] = someEnclosure[enclosures.length - 1];
-        someEnclosure[animalIndex] = enclosures[enclosures.length - 1];
-        enclosures = someEnclosure;
+        //Процесс обмена вольеров
+        newEnclosure[enclosures.length - 1] = enclosures[animalIndex];
+        enclosures[animalIndex] = newEnclosure[enclosures.length - 1];
+        newEnclosure[animalIndex] = enclosures[enclosures.length - 1];
+        enclosures = newEnclosure;
 
-        remove(animals[animalIndex]);
-
+        remove(animals[animalIndex]); // Удаление животного
     }
 
 
     /**
-     * Информация о зоопарке
+     * Информация о зоопарке.
      */
     public void info() {
         String an;

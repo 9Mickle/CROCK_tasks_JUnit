@@ -42,29 +42,34 @@ public class Main {
             zoo.addStaff(employees[i],enclosures[i]);
         }
 
+        System.out.println("\nЗоопарк в начальном виде: ");
         zoo.info(); //Информация о зоопарке
 
-        enclosures[0].setCleanStatus(true);
+        enclosures[0].setCleanStatus(true);//Загрязнение вольера "№1" = true
         zoo.clean(0);
         if (enclosures[0].isCleanStatus()) {
-            System.out.println("\nВольер " + enclosures[0] + " грязный");
+            System.out.println("\nВольер " + enclosures[0] + " - грязный");
         } else {
-            System.out.println("Вольер " + enclosures[0] + " чистый");
+            System.out.println("Вольер " + enclosures[0] + " - чистый");
         }
 
-        animals[1].setFeedStatus(true);
+        animals[1].setFeedStatus(true); //Голод животного "Волк" = true
         zoo.feed(1);
         if (animals[1].isFeedStatus()) {
-            System.out.println("\nЖивотное " + animals[1] + " голодное");
+            System.out.println("\nЖивотное " + animals[1] + " - голодное");
         } else {
-            System.out.println("Животное " + animals[1] + " покормлено");
+            System.out.println("Животное " + animals[1] + " - покормлено");
         }
 
-        animals[2].setDiseaseStatus(true);
+        animals[2].setDiseaseStatus(true); //Болезнь животного "Черепаха" = true
         zoo.disease(2);
 
-        zoo.swapElem(2, employees[2], enclosures[2]);
-        System.out.println();
+        zoo.swapElem(2, employees[2], enclosures[2]); //Переставить сотрудника "Вадим" и вольер "№3" в конец массивов
+        System.out.println("\nИнформация о зоопарке после того как умерла Черепаха: ");
+        zoo.info();
+
+        zoo.addAnimal(new Animal("Крот")); //Добавление нового животного "Крот" в зоопарк
+        System.out.println("\nИнформация о зоопарке после того как добавили Крота: ");
         zoo.info();
     }
 }

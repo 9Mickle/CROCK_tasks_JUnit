@@ -1,15 +1,17 @@
 package Zoo.ComponentsZoo;
 
-
-import java.sql.SQLOutput;
-
 /**
- * Вольер
+ * Вольер {@link Zoo}
  */
 public class Enclosure {
-    private String name;
-    private boolean status;
+    private String name; // Название вольера
+    private boolean status; // Статус загрязнения вольера
 
+    /**
+     * Создаем название клетки
+     *
+     * @param name
+     */
     public Enclosure(String name) {
         this.name = name;
     }
@@ -26,6 +28,11 @@ public class Enclosure {
         return name;
     }
 
+    /**
+     * Возвращает текствове представление класса.
+     *
+     * @return
+     */
     @Override
     public String toString() {
         return name;
