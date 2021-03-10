@@ -43,7 +43,7 @@ public class Main {
         }
 
         System.out.println("\nЗоопарк в начальном виде: ");
-        zoo.info(); //Информация о зоопарке
+        zoo.info(); //Информация о зоопарке.
 
         enclosures[0].setCleanStatus(true);//Загрязнение вольера "№1" = true
         zoo.clean(0);
