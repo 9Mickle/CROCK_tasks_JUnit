@@ -19,7 +19,7 @@ public class Main {
         Employee[] employees = new Employee[]{ //Сотрудники
                 new Employee("Александр"),
                 new Employee("Роман"),
-                new Employee("Вадим"),
+                new Employee("Виктор"),
                 new Employee("Алексей")
         };
         Enclosure[] enclosures = new Enclosure[]{ //Вольеры
@@ -64,12 +64,16 @@ public class Main {
         animals[2].setDiseaseStatus(true); //Болезнь животного "Черепаха" = true
         zoo.disease(2);
 
-        zoo.swapElem(2, employees[2], enclosures[2]); //Переставить сотрудника "Вадим" и вольер "№3" в конец массивов
+        zoo.removeAnimal(2); //Переставить сотрудника "Вадим" и вольер "№3" в конец массивов
         System.out.println("\nИнформация о зоопарке после того как умерла Черепаха: ");
         zoo.info();
 
         zoo.addAnimal(new Animal("Крот")); //Добавление нового животного "Крот" в зоопарк
         System.out.println("\nИнформация о зоопарке после того как добавили Крота: ");
+        zoo.info();
+
+        zoo.removeAnimal(2);
+        System.out.println("\nИнформация о зоопарке после продажи Слона");
         zoo.info();
     }
 }

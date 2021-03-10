@@ -101,31 +101,29 @@ public class Zoo {
 
 
     /**
-     * Поставить свободного сотрудника в конец списка, в конце метода вызвается метод удаления записи от животном
+     * Метод ставит свободного сотрудника в конец массива, в конце метода вызвается метод удаления записи о животном.
      *
-     * @param animalIndex - индекса животного в массиве, которое умерло.
-     * @param employee - работник отвечающий за это животное[animalIndex].
-     * @param enclosure - вольер предназначенный для этого животного[animalIndex].
+     * @param animalIndex - индекса животного в массиве, которое нужно убрать.
      */
-    public void swapElem(int animalIndex, Employee employee, Enclosure enclosure) {
+    public void removeAnimal(int animalIndex) {
         Employee[] newEmployee = new Employee[] {}; // Новый массив для обмена сотрудников
         Enclosure[] newEnclosure = new Enclosure[] {}; // Новый массив для обмена вольеров
         newEmployee =  Arrays.copyOf(employees, employees.length);
         newEnclosure = Arrays.copyOf(enclosures, enclosures.length);
 
-        //Процесс обмена сотрудников
-        newEmployee[employees.length - 1] = employees[animalIndex];
-        employees[animalIndex] = newEmployee[employees.length - 1];
-        newEmployee[animalIndex] = employees[employees.length - 1];
-        employees = newEmployee;
+            //Процесс обмена сотрудников
+            newEmployee[employees.length - 1] = employees[animalIndex];
+            employees[animalIndex] = newEmployee[employees.length - 1];
+            newEmployee[animalIndex] = employees[employees.length - 1];
+            employees = newEmployee;
 
-        //Процесс обмена вольеров
-        newEnclosure[enclosures.length - 1] = enclosures[animalIndex];
-        enclosures[animalIndex] = newEnclosure[enclosures.length - 1];
-        newEnclosure[animalIndex] = enclosures[enclosures.length - 1];
-        enclosures = newEnclosure;
+            //Процесс обмена вольеров
+            newEnclosure[enclosures.length - 1] = enclosures[animalIndex];
+            enclosures[animalIndex] = newEnclosure[enclosures.length - 1];
+            newEnclosure[animalIndex] = enclosures[enclosures.length - 1];
+            enclosures = newEnclosure;
 
-        remove(animals[animalIndex]); // Удаление животного
+            remove(animals[animalIndex]); // Удаление животного
     }
 
 
