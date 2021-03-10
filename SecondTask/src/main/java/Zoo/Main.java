@@ -35,8 +35,8 @@ public class Main {
                 new Animal("Слон"),
         };
 
-        for (int i = 0; i < animals.length; i++) { //Добавление животных в зоопарк
-            zoo.addAnimal(animals[i]);
+        for (Animal animal : animals) { //Добавление животных в зоопарк
+            zoo.addAnimal(animal);
         }
         for (int i = 0; i < employees.length; i++) { //Добавление сотрудников и вольеров
             zoo.addStaff(employees[i],enclosures[i]);

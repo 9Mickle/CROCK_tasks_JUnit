@@ -94,12 +94,20 @@ public class Zoo {
      * @param enclosure
      */
     public void swapElem(int animalIndex, Employee employee, Enclosure enclosure) {
-        Employee[] someString = new Employee[] {}; //Для обмена
-        someString =  Arrays.copyOf(employees, employees.length);
+        Employee[] someEmployee = new Employee[] {}; //Для обмена
+        Enclosure[] someEnclosure = new Enclosure[] {};
+        someEmployee =  Arrays.copyOf(employees, employees.length);
+        someEnclosure = Arrays.copyOf(enclosures, enclosures.length);
 
-        employees[employees.length - 1] = employees[animalIndex];
-        someString[animalIndex] = employees[employees.length - 1];
-        employees[animalIndex] = someString[employees.length - 1];
+        someEmployee[employees.length - 1] = employees[animalIndex];
+        employees[animalIndex] = someEmployee[employees.length - 1];
+        someEmployee[animalIndex] = employees[employees.length - 1];
+        employees = someEmployee;
+
+        someEnclosure[enclosures.length - 1] = enclosures[animalIndex];
+        enclosures[animalIndex] = someEnclosure[enclosures.length - 1];
+        someEnclosure[animalIndex] = enclosures[enclosures.length - 1];
+        enclosures = someEnclosure;
 
         remove(animals[animalIndex]);
 
@@ -110,9 +118,13 @@ public class Zoo {
      * Информация о зоопарке
      */
     public void info() {
-        for (int i = 0; i < employees.length; i++) {
-            System.out.println("Сотрудник " + employees[i] + " отвечает за животное " + animals[i] +
+        String an;
+        for (int i = 0; i < employees.length ; i++) {
+        if (animals.length > i){
+            an = animals[i].getName();
+            System.out.println("Сотрудник " + employees[i] + " отвечает за животное " + an +
                     ",которому дан вольер " + enclosures[i]);
+            }
         }
     }
 }
