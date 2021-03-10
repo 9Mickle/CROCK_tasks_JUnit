@@ -4,6 +4,7 @@ public class Converter {
 
     public static void main(String[] args) {
 
+
         System.out.print("Введите размер файла в байтах: ");
         printBytes(checkNum());
     }
@@ -51,4 +52,5 @@ public class Converter {
             System.out.println("\nКонвертированный размер: " +
                     String.format("%.1f", sizeInBytes/tB) + " TB");
     }
+
 }
