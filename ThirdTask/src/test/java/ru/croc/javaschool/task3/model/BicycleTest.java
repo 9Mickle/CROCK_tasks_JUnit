@@ -6,6 +6,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import ru.croc.javaschool.task3.classShells.Engine;
 import ru.croc.javaschool.task3.classShells.StatusRent;
+import ru.croc.javaschool.task3.classShells.StatusRepair;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -14,12 +15,17 @@ class BicycleTest {
 
     @BeforeEach
     public void setup() {
-        bicycle = new Bicycle("Велосипед", "Forward", 1, StatusRent.ONSTOCK);
+        bicycle = new Bicycle("Велосипед", "Forward", 1, StatusRent.ONSTOCK, StatusRepair.GOOD);
     }
 
     @Test
     @DisplayName("Тест метода получения полной информации о велосипеде")
     public void testGetFullName() {
-        Assertions.assertEquals("Велосипед Forward(1) ONSTOCK", bicycle.getFullName());
+        Assertions.assertEquals("Информация о транспорте: \n" +
+                "\tНазвание: Велосипед\n" +
+                "\tФирма: Forward\n" +
+                "\tНомер: 1\n" +
+                "\tСтатус арнеды: ONSTOCK\n" +
+                "\tСостояние транспорта: GOOD", bicycle.getFullName());
     }
 }

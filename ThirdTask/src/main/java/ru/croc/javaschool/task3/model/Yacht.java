@@ -10,9 +10,9 @@ import ru.croc.javaschool.task3.classShells.Transport;
  */
 public class Yacht extends Transport implements RentManager {
 
-    private  StatusRent statusRent; // Статус аренды транспорта.
+    private  StatusRent statusRent; // Статус аренды
 
-    private StatusRepair statusRepair; // Статус ремонта транспорта.
+    private StatusRepair statusRepair; // Статус ремонта
 
     /**
      * Установить название, имя, id, статус аренды транспорта.
@@ -21,10 +21,12 @@ public class Yacht extends Transport implements RentManager {
      * @param name - имя.
      * @param id - номер.
      * @param statusRent - статус аренды.
+     * @param statusRepair - статус ремонта.
      */
-    public Yacht(String title, String name, int id, StatusRent statusRent) {
+    public Yacht(String title, String name, int id, StatusRent statusRent, StatusRepair statusRepair) {
         super(title, name, id);
         this.statusRent = statusRent;
+        this.statusRepair = statusRepair;
     }
 
     /**
@@ -34,8 +36,11 @@ public class Yacht extends Transport implements RentManager {
      */
     @Override
     public String getFullName() {
-        return "Информация о транспорте: " + toString(this.getTitle() + " " + this.getName() +
-                "(" + this.getId() + ") " + statusRent);
+        return "Информация о транспорте: " + toString("\n\tНазвание: " + this.getTitle() +
+                "\n\tФирма: " + this.getName() +
+                "\n\tНомер: " + this.getId() +
+                "\n\tСтатус арнеды: " + statusRent +
+                "\n\tСостояние транспорта: "+ statusRepair);
     }
     private String toString(String s) {
         return s;
@@ -50,8 +55,7 @@ public class Yacht extends Transport implements RentManager {
             System.out.println("Невозможно арендовать - яхта нуждается в ремонте!");
         } else if (statusRent == StatusRent.ONSTOCK) {
             statusRent = StatusRent.RENT;
-            System.out.println(this.getTitle() + " " + this.getName() + "(" + this.getId() +
-                    ") " + this.statusRent.getTitle());
+            System.out.println(this.getTitle() + " " + this.getName() + "(" + this.getId() + ") " + this.statusRent.getTitle());
         } else {
             System.out.println("Транспорт уже арендован!");
         }
@@ -63,8 +67,7 @@ public class Yacht extends Transport implements RentManager {
     @Override
     public void removeFromRent() {
         statusRent = StatusRent.REMOVERENT;
-        System.out.println(this.getTitle() + " " + this.getName() + "(" + this.getId() +
-                ") " + this.statusRent.getTitle());
+        System.out.println(this.getTitle() + " " + this.getName() + "(" + this.getId() + ") " + this.statusRent.getTitle());
         statusRepair = StatusRepair.BAD;
         System.out.println(this.statusRepair.getTitle());
     }
@@ -74,16 +77,37 @@ public class Yacht extends Transport implements RentManager {
      */
     @Override
     public void fix() {
-        System.out.println("Моем до блеска и заправляем яхту " + this.getName() + "("+ this.getId() +
-                ")..." + "\nТранспор готов к аренде!");
-        statusRepair = StatusRepair.GOOD;
-        statusRent = StatusRent.ONSTOCK;
-        System.out.println(this.getTitle() + " " + this.getName() + "(" + this.getId() +
-                ") " + statusRepair.getTitle());
+        if (statusRent == StatusRent.REMOVERENT) {
+            System.out.println("Моем до блеска и заправляем яхту " + this.getName() + "(" + this.getId() + ")..." + "\nТранспор готов к аренде!");
+            statusRepair = StatusRepair.GOOD;
+            statusRent = StatusRent.ONSTOCK;
+            System.out.println(this.getTitle() + " " + this.getName() + "(" + this.getId() + ") " + statusRepair.getTitle());
+
+        } else if (statusRent == StatusRent.RENT) {
+            System.out.println("Эта яхта находится в аренде!");
+        } else {
+            System.out.println("Эта яхта починена и стоит на парковке.");
+        }
     }
 
     /**
-     * Отдать яхту арендатору.
+     * Проверка состояния транспорта.
+     */
+    @Override
+    public void checkRepair() {
+        System.out.println("Состояние яхты: " + statusRepair);
+    }
+
+    /**
+     * Информация об аренде транспорта
+     */
+    @Override
+    public void checkRent() {
+        System.out.println("Информация об аренде яхты: " + statusRent);
+    }
+
+    /**
+     * Переопределнный дефолтный метод, т.к. яхта плавает, а не ездит.
      */
     @Override
     public void drive() {
