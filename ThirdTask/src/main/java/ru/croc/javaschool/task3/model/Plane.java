@@ -80,7 +80,7 @@ public class Plane extends Transport implements RentManager {
     }
 
     /**
-     * Отдать самолет арендатору.
+     * Отдать самолет арендатору
      */
     @Override
     public void drive() {
