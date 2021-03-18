@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import ru.croc.javaschool.task3.classShells.Engine;
 import ru.croc.javaschool.task3.classShells.StatusRent;
 import ru.croc.javaschool.task3.classShells.StatusRepair;
 
@@ -14,7 +15,7 @@ class YachtTest {
 
     @BeforeEach
     public void setup() {
-        yacht = new Yacht("Яхта", "LVMH", 300, StatusRent.ONSTOCK, StatusRepair.GOOD);
+        yacht = new Yacht("Яхта", "LVMH", 300, StatusRent.ONSTOCK, StatusRepair.GOOD, Engine.ELECTRIC);
     }
 
     @Test
@@ -25,7 +26,8 @@ class YachtTest {
                 "\tФирма: LVMH\n" +
                 "\tНомер: 300\n" +
                 "\tСтатус арнеды: ONSTOCK\n" +
-                "\tСостояние транспорта: GOOD", yacht.getFullName());
+                "\tСостояние транспорта: GOOD\n" +
+                "\tТип двигателя: ELECTRIC", yacht.getFullName());
     }
 
 }

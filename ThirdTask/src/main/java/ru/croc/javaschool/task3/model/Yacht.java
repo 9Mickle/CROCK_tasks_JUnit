@@ -1,9 +1,6 @@
 package ru.croc.javaschool.task3.model;
 
-import ru.croc.javaschool.task3.classShells.RentManager;
-import ru.croc.javaschool.task3.classShells.StatusRent;
-import ru.croc.javaschool.task3.classShells.StatusRepair;
-import ru.croc.javaschool.task3.classShells.Transport;
+import ru.croc.javaschool.task3.classShells.*;
 
 /**
  * Яхта. (id 300 - 399)
@@ -14,6 +11,8 @@ public class Yacht extends Transport implements RentManager {
 
     private StatusRepair statusRepair; // Статус ремонта
 
+    private Engine typeEngine; // Тип двигателя
+
     /**
      * Установить название, имя, id, статус аренды транспорта.
      *
@@ -23,10 +22,11 @@ public class Yacht extends Transport implements RentManager {
      * @param statusRent - статус аренды.
      * @param statusRepair - статус ремонта.
      */
-    public Yacht(String title, String name, int id, StatusRent statusRent, StatusRepair statusRepair) {
+    public Yacht(String title, String name, int id, StatusRent statusRent, StatusRepair statusRepair, Engine typeEngine) {
         super(title, name, id);
         this.statusRent = statusRent;
         this.statusRepair = statusRepair;
+        this.typeEngine = typeEngine;
     }
 
     /**
@@ -40,7 +40,8 @@ public class Yacht extends Transport implements RentManager {
                 "\n\tФирма: " + this.getName() +
                 "\n\tНомер: " + this.getId() +
                 "\n\tСтатус арнеды: " + statusRent +
-                "\n\tСостояние транспорта: "+ statusRepair);
+                "\n\tСостояние транспорта: "+ statusRepair +
+                "\n\tТип двигателя: " + typeEngine);
     }
     private String toString(String s) {
         return s;

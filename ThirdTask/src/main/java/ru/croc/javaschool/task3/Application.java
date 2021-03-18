@@ -38,7 +38,7 @@ public class Application {
 
         planes.add(new Plane("Самолет", "Фалкон", 400, StatusRent.ONSTOCK, StatusRepair.GOOD, Engine.DTRD));
 
-        yachts.add(new Yacht("Яхта", "LVMH", 300, StatusRent.ONSTOCK, StatusRepair.GOOD));
+        yachts.add(new Yacht("Яхта", "LVMH", 300, StatusRent.ONSTOCK, StatusRepair.GOOD, Engine.ELECTRIC));
 
         autos.add(new Auto("Электрокар","Tesla", 200, Engine.ELECTRIC, StatusRent.ONSTOCK, StatusRepair.GOOD));
         autos.add(new Auto("Машина","Lada", 201, Engine.ISE, StatusRent.ONSTOCK, StatusRepair.GOOD));
