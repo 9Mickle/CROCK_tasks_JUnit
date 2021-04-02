@@ -19,4 +19,3 @@ public enum StatusRent {
         return title;
     }
 }
-я
