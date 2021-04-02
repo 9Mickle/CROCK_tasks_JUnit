@@ -50,8 +50,6 @@ public class TaskManager {
 
             map = (HashMap<String, Task>) ois.readObject();
 
-            //System.out.println(map);
-
             fis.close();
             ois.close();
         } catch (Exception e) {
@@ -134,23 +132,27 @@ public class TaskManager {
         scanner.nextLine(); // Съесть оставшуюся строку.
 
         switch (choice) {
+            //Редактирование наименования.
             case 1:
                 System.out.print("  Введите наименование: ");
                 map.get(id).setTitle(scanner.nextLine());break;
 
             case 2:
+                //Редактирование описания.
                 System.out.print("  Введите описание: ");
                 map.get(id).setDescription(scanner.nextLine());break;
 
             case 3:
+                //Редактирование исполнителя.
                 System.out.print("  Введите исполнителя: ");
                 map.get(id).setExecutor(scanner.nextLine());break;
 
             case 4:
+                //Редактирование статуса.
                 System.out.print("  Введите статус: ");
                 map.get(id).setStatusTask(scanner.nextLine());break;
         }
-        //Перезапись файла после редактирования задачи.
+        //Перезапись файла после редактирования одного из полей задачи.
         record(map);
     }
 
@@ -176,17 +178,7 @@ public class TaskManager {
      * @return true/false.
      */
     public boolean checkKey(String id) {
-        try {
-            FileInputStream fis = new FileInputStream("save.ser");
-            ObjectInputStream ois = new ObjectInputStream(fis);
-
-            map = (HashMap<String, Task>) ois.readObject();
-
-            fis.close();
-            ois.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        getRecordFromFile();
         return map.containsKey(id);
     }
 }

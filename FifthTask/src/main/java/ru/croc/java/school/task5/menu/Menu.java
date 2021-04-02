@@ -52,6 +52,7 @@ public class Menu {
 
         System.out.print("\nПолучите: ");
         switch (key) {
+            //Получение задачи по её id.
             case 1:
                 putId();
                 if (taskManager.checkFile()) {
@@ -63,6 +64,7 @@ public class Menu {
                 }break;
 
             case 2:
+                //Редактирование полей задачи, с дальнейшем выбором какое поле редактировать.
                 putId();
                 if (taskManager.checkFile()) {
                     System.out.println("Файл пуст");
@@ -73,13 +75,16 @@ public class Menu {
                 }break;
 
             case 3:
+                //Удаление задачи.
                 putId();
                 taskManager.deleteTask(id);break;
 
             case 4:
+                //Добавление задачи.
                 taskManager.addTask();break;
 
             case 5:
+                //Вывод всех задач в задачнике.
                 if (taskManager.checkFile()) {
                     System.out.print("Файл пуст");
                 } else {
@@ -92,7 +97,7 @@ public class Menu {
     }
 
     /**
-     * Ввод кода задачи.
+     * Вспомогательный метод, с вводом кода задачи.
      */
     private void putId() {
         System.out.print("\nВведите код задачи: ");
