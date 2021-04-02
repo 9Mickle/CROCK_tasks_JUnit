@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.util.Scanner;
 
 /**
- * Меню.
+ * Меню
  */
 public class Menu {
 
