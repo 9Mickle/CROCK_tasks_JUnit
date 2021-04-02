@@ -18,6 +18,7 @@ class YachtTest {
         yacht = new Yacht("Яхта", "LVMH", 300, StatusRent.ONSTOCK, StatusRepair.GOOD, Engine.ELECTRIC);
     }
 
+
     @Test
     @DisplayName("Тест метода получения полной информации о велосипеде")
     public void testGetFullName() {
