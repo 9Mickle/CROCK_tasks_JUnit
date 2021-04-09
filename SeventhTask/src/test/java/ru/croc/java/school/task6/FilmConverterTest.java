@@ -19,7 +19,6 @@ public class FilmConverterTest {
     @Test
     public void testConvertInfoToXml() throws IOException {
 
-        final FilmLibrary filmLibrary = new FilmLibrary();
         final Film film = new Film();
 
         List<Film> films = new ArrayList<>();
