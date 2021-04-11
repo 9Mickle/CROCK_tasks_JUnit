@@ -7,75 +7,28 @@ import java.util.Date;
  */
 public class Shop {
 
-//    /** Название.*/
-//    private String name;
-//
-//    /** Площадь магазина.*/
-//    private Integer storeArea;
-//
-//    /** Статус открыт/закрыт.*/
-//    private Boolean statusWork;
-//
-//    /** Время, когда магазин открыт/закрыт.*/
-//    private Date date;
-
+    /** Идентификатор.*/
     private Integer id;
-    private String title;
 
-    public Shop(Integer id, String title) {
+    /** Название.*/
+    private String name;
+
+    /** Площадь магазина.*/
+    private Integer storeArea;
+
+    /** Статус, нужда в товарах.*/
+    private Boolean fullness;
+
+    /** Дата поступления товара в магазин.*/
+    private String date;
+
+    public Shop(Integer id, String name, Integer storeArea, Boolean fullness, String date) {
         this.id = id;
-        this.title = title;
+        this.name = name;
+        this.storeArea = storeArea;
+        this.fullness = fullness;
+        this.date = date;
     }
-
-//    public Shop(String name, Integer storeArea, Boolean statusWork, Date date) {
-//        this.name = name;
-//        this.storeArea = storeArea;
-//        this.statusWork = statusWork;
-//        this.date = date;
-//    }
-//
-//    public Integer getStoreArea() {
-//        return storeArea;
-//    }
-//
-//    public void setStoreArea(Integer storeArea) {
-//        this.storeArea = storeArea;
-//    }
-//
-//    public String getName() {
-//        return name;
-//    }
-//
-//    public void setName(String name) {
-//        this.name = name;
-//    }
-//
-//    public Boolean getStatusWork() {
-//        return statusWork;
-//    }
-//
-//    public void setStatusWork(Boolean statusWork) {
-//        this.statusWork = statusWork;
-//    }
-//
-//    public Date getDate() {
-//        return date;
-//    }
-//
-//    public void setDate(Date date) {
-//        this.date = date;
-//    }
-//
-//    @Override
-//    public String toString() {
-//        return "Shop{" +
-//                "name='" + name + '\'' +
-//                ", storeArea=" + storeArea +
-//                ", statusWork=" + statusWork +
-//                ", date=" + date +
-//                '}';
-//    }
-
 
     public Integer getId() {
         return id;
@@ -85,19 +38,45 @@ public class Shop {
         this.id = id;
     }
 
-    public String getTitle() {
-        return title;
+    public String getName() {
+        return name;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Integer getStoreArea() {
+        return storeArea;
+    }
+
+    public void setStoreArea(Integer storeArea) {
+        this.storeArea = storeArea;
+    }
+
+    public Boolean getFullness() {
+        return fullness;
+    }
+
+    public void setFullness(Boolean fullness) {
+        this.fullness = fullness;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 
     @Override
     public String toString() {
         return "Shop{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
+                "name='" + name + '\'' +
+                ", storeArea=" + storeArea +
+                ", fullness=" + fullness +
+                ", date='" + date + '\'' +
                 '}';
     }
 }

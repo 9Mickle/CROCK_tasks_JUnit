@@ -3,6 +3,7 @@ package ru.croc.java.school.task7.service;
 import ru.croc.java.school.task7.entity.Shop;
 import ru.croc.java.school.task7.repository.ShopRepository;
 
+import java.sql.SQLException;
 import java.util.List;
 
 /** Выполнение запросов в БД.*/
@@ -21,5 +22,13 @@ public class ShopService {
     public Shop createNew(Shop shop) {
         shopRepository.createNew(shop);
         return shop;
+    }
+
+    public void delete() {
+        shopRepository.delete();
+    }
+
+    public void update() {
+        shopRepository.update();
     }
 }
