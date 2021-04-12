@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 /** Выполнение запросов в БД.*/
-public class ShopService {
+public class ShopService<T> {
 
     private final ShopRepository shopRepository;
 
@@ -24,11 +24,15 @@ public class ShopService {
         return shop;
     }
 
-    public void delete() {
-        shopRepository.delete();
+    public List<Shop> delete(Integer id) {
+        return shopRepository.deleteRecord(id);
     }
 
-    public void update() {
-        shopRepository.update();
+    public List<Shop> update(String columnTitle, T result, Integer id) {
+        return shopRepository.updateTable(columnTitle, result, id);
+    }
+
+    public void edit() {
+
     }
 }

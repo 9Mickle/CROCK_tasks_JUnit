@@ -12,12 +12,12 @@ import java.util.List;
  * Репозиторий для доступа к таблице с данными о магазинах.
  * CRUD-операции (Create, Read, Update, Delete).
  */
-public class ShopRepository {
+public class ShopRepository<T> {
 
     /** Название таблицы.*/
     private static final String TABLE_NAME = "shop";
 
-    private EmbeddedDataSource dataSource;
+    private final EmbeddedDataSource dataSource;
 
     public ShopRepository(EmbeddedDataSource dataSource) {
         this.dataSource = dataSource;
@@ -48,8 +48,8 @@ public class ShopRepository {
                                 + "id INTEGER PRIMARY KEY,"
                                 + "name VARCHAR (255),"
                                 + "area INTEGER,"
-                                + "status VARCHAR (255),"
-                                + "date VARCHAR (255)"
+                                + "status boolean,"
+                                + "date VARCHAR (255)" // Не понятно как использовать тип столбца DATE, перепробывал всякие варианты в том числе LocalDate.
                                 + ")");
                 System.out.println("Таблица была успешно инициализирована");
             }
@@ -109,30 +109,69 @@ public class ShopRepository {
     }
 
     /**
-     * Удалить строку из БД.
+     * Удалить объект из БД.
+     * Если объект будет удален, то вернется пустой список.
+     *
+     * @param id идентификатор объекта.
+     * @return пустой список, т.к после процедуры удаления объекта из БД, id такого магазина в БД уже не будет .
      */
-    public void delete() {
+    public List<Shop> deleteRecord(Integer id) {
 
-        String sql = "DELETE FROM " + TABLE_NAME + " WHERE id=3";
+        String sqlQuery = "DELETE FROM " + TABLE_NAME + " WHERE id=" + id;
         try(Connection connection = dataSource.getConnection();
             Statement statement = connection.createStatement()) {
-            statement.executeUpdate(sql); //Удаление
+            List<Shop> shopList= new ArrayList<>();
+            statement.executeUpdate(sqlQuery); //Удаление
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM " + TABLE_NAME + " WHERE id=" + id);
+
+            while (resultSet.next()) {
+                shopList.add(
+                        new Shop(
+                                resultSet.getInt("id"),
+                                resultSet.getString("name"),
+                                resultSet.getInt("area"),
+                                resultSet.getBoolean("status"),
+                                resultSet.getString("date")));
+            }
+            return shopList;
         } catch (Exception e) {
-            System.out.println("Ошибочка " + e.getMessage());
+            System.out.println("Ошибка выполнения запроса: " + e.getMessage());
         }
+        return new ArrayList<>();
     }
 
     /**
-     * Обновить БД.
+     * Обновить БД, после изменения какого-либо объекта в БД.
+     *
+     * @param columnTitle имя столбца в БД.
+     * @param result параметр, на который будет изменён столбец.
+     * @param id идентификатор объекта.
+     * @return список из 1 элемента (изменненного магазина).
      */
-    public void update() {
-        String sql = "UPDATE " + TABLE_NAME + " SET checked=false WHERE id=2";
+    public List<Shop> updateTable(String columnTitle, T result, Integer id) {
+
+        String convert = result.toString(); // Если параметр T result будет числом.
+        String sqlUpdateQuery = "UPDATE " + TABLE_NAME + " SET " + columnTitle + "=" + "'" +  convert + "'" + " WHERE id=" + id;
         try (Connection connection = dataSource.getConnection();
             Statement statement = connection.createStatement()) {
-            statement.executeUpdate(sql);
-        } catch (Exception e) {
-            System.out.println("Ошибочка " + e.getMessage());
-        }
-    }
 
+            List<Shop> shopList = new ArrayList<>();
+            statement.executeUpdate(sqlUpdateQuery);
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM " + TABLE_NAME + " WHERE id=" + id);
+
+            while (resultSet.next()) {
+                shopList.add(
+                        new Shop(
+                                resultSet.getInt("id"),
+                                resultSet.getString("name"),
+                                resultSet.getInt("area"),
+                                resultSet.getBoolean("status"),
+                                resultSet.getString("date")));
+            }
+            return shopList;
+        } catch (Exception e) {
+            System.out.println("Ошибка выполнения запроса: " + e.getMessage());
+        }
+        return new ArrayList<>();
+    }
 }

@@ -14,6 +14,8 @@ public class Application {
 
     public static void main(String[] args) throws IOException {
 
+        //TODO добавить свойства магазина
+
         Date date = new Date();
         DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
         DateFormat timeFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -24,14 +26,13 @@ public class Application {
         ShopRepository shopRepository = new ShopRepository(dataSourceProvider.getDataSource());
         ShopService shopService = new ShopService(shopRepository);
 
-        Shop shop = shopService.createNew(new Shop(1, "Magnit", 2000, false, nowDate +" "+ nowTime));
-        //Shop shop1 = shopService.createNew(new Shop(3, "test2", false));
-        //List<Shop> shops = new ArrayList<>();
-        //shops = shopService.getAll();
-        shopService.getAll().forEach(System.out::println);
-        //shopService.update();
-        //shopService.delete();
+        //Shop shop2 = shopService.createNew(new Shop(1, "Magnit", 3000, true, nowDate +" "+ nowTime));
+        //Shop shop = shopService.createNew(new Shop(2, "Unker", 3000, true, nowDate +" "+ nowTime));
+        List<Shop> shopList;
+        //shopList = shopService.update("name", "Unker", 1);
         //shopService.getAll().forEach(System.out::println);
+        shopList = shopService.delete(2);
         //shopService.getAll().forEach(System.out::println);
+        System.out.println(shopList);
     }
 }
