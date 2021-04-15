@@ -53,7 +53,6 @@ public class DataSourceProvider {
             }
             dataSource.setCreateDatabase("create");
         }
-
         return dataSource;
     }
 }

@@ -14,7 +14,9 @@ import java.util.List;
  */
 public class PrisonerRepository {
 
-    /** Название таблицы.*/
+    /**
+     * Название таблицы.
+     */
     private static final String TABLE_NAME = "prisoner";
 
     private final EmbeddedDataSource dataSource;
@@ -28,7 +30,6 @@ public class PrisonerRepository {
      * Метод инициализации БД.
      */
     private void initTable() {
-
         System.out.println(String.format("Начать инициализацию %s таблицы", TABLE_NAME));
         try (Connection connection = dataSource.getConnection();
              Statement statement = connection.createStatement()) {
@@ -68,7 +69,6 @@ public class PrisonerRepository {
      * @return список всех магазинов.
      */
     public List<Prisoner> findAll() {
-
         try (Connection connection = dataSource.getConnection();
              Statement statement = connection.createStatement()) {
             ResultSet resultSet = statement.executeQuery("SELECT * FROM " + TABLE_NAME);
@@ -85,8 +85,8 @@ public class PrisonerRepository {
                                 resultSet.getInt("verdict")));
             }
             return prisoners;
-        } catch (Exception e) {
-            System.out.println("Ошибка выполнения запроса: " + e.getMessage());
+        } catch (SQLException e) {
+            e.getMessage();
         }
         return new ArrayList<>();
     }
@@ -96,8 +96,7 @@ public class PrisonerRepository {
      *
      * @param prisoner заключенный.
      */
-    public void createNew(Prisoner prisoner) {
-
+    public void createNew(Prisoner prisoner) throws SQLException {
         String sqlQuery = "INSERT INTO " + TABLE_NAME + " VALUES (?, ?, ?, ?, ?, ?, ?)";
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(sqlQuery)) {
@@ -109,8 +108,8 @@ public class PrisonerRepository {
             statement.setString(6, prisoner.getEndDate());
             statement.setString(7, prisoner.getVerdict().toString());
             statement.execute();
-        } catch (Exception e) {
-            System.out.println("Ошибка выполнения запроса: " + e.getMessage());
+        } catch (SQLException e) {
+            throw e;
         }
     }
 
@@ -119,14 +118,13 @@ public class PrisonerRepository {
      *
      * @param id идентификатор объекта.
      */
-    public void deleteRecord(Integer id) {
-
+    public void deleteRecord(Integer id) throws SQLException {
         String sqlQuery = "DELETE FROM " + TABLE_NAME + " WHERE id=" + id;
-        try(Connection connection = dataSource.getConnection();
-            Statement statement = connection.createStatement()) {
+        try (Connection connection = dataSource.getConnection();
+             Statement statement = connection.createStatement()) {
             statement.executeUpdate(sqlQuery);
-        } catch (Exception e) {
-            System.out.println("Ошибка выполнения запроса: " + e.getMessage());
+        } catch (SQLException e) {
+            throw e;
         }
     }
 
@@ -137,8 +135,7 @@ public class PrisonerRepository {
      * @param result параметр, на который будет изменён столбец.
      * @param id идентификатор объекта.
      */
-    public void updateTable(String columnTitle, String result, Boolean chek, Integer id) {
-
+    public void updateTable(String columnTitle, String result, Boolean chek, Integer id) throws SQLException {
         String sqlUpdateQuery;
         // Если вернули true, то формируем SQL запрос под число.
         // Если вернули false, то форммируем SQL запрос под строку.
@@ -151,8 +148,18 @@ public class PrisonerRepository {
         try (Connection connection = dataSource.getConnection();
              Statement statement = connection.createStatement()) {
             statement.executeUpdate(sqlUpdateQuery);
-        } catch (Exception e) {
-            System.out.println("Ошибка выполнения запроса: " + e.getMessage());
+        } catch (SQLException e) {
+            throw e;
+        }
+    }
+
+    public void deleteAll () throws SQLException {
+        String sqlQuery = "DELETE FROM " + TABLE_NAME;
+        try (Connection connection = dataSource.getConnection();
+             Statement statement = connection.createStatement()) {
+            statement.executeUpdate(sqlQuery);
+        } catch (SQLException e) {
+            throw e;
         }
     }
 
@@ -163,8 +170,8 @@ public class PrisonerRepository {
      * @return список из 1 элемента (заключенного).
      */
     public List<Prisoner> getPrisoner(Integer id) {
-        try(Connection connection = dataSource.getConnection();
-            Statement statement = connection.createStatement()) {
+        try (Connection connection = dataSource.getConnection();
+             Statement statement = connection.createStatement()) {
             List<Prisoner> prisoners = new ArrayList<>();
             ResultSet resultSet = statement.executeQuery("SELECT * FROM " + TABLE_NAME + " WHERE id=" + id);
 

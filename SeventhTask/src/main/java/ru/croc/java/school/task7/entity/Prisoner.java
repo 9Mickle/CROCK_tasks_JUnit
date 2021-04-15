@@ -1,5 +1,8 @@
 package ru.croc.java.school.task7.entity;
 
+/**
+ * Заключенный.
+ */
 public class Prisoner {
 
     /** Идентификатор.*/
