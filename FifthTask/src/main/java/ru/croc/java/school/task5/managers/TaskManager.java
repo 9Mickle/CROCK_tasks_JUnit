@@ -78,7 +78,6 @@ public class TaskManager {
         Task task = new Task(id, title, description, executor, statusTask);
 
         map.put(task.getId(), task);
-
         record(map);
     }
 
