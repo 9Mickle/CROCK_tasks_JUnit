@@ -12,6 +12,7 @@ import ru.croc.java.school.task7.service.PrisonerService;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -67,7 +68,7 @@ public class TestCalculations {
      * идет расчет сроков обоих заключенных, затем идет проверка - можно ли выпустить заключенных из тюрьмы.
      */
     @Test
-    public void testReleasePrisoner() throws SQLException {
+    public void testReleasePrisoner() throws SQLException, ParseException {
         Prisoner testPrisoner = new Prisoner(2, "Whity", 20, true, 10); // Тестовый заключенный2.
         prisonerService.createNew(testPrisoner);
         // Установил дату начала срока обоих заключенных.

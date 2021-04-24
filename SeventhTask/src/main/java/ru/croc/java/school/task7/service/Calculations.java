@@ -4,9 +4,8 @@ import ru.croc.java.school.task7.repository.PrisonerRepository;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 /**
@@ -31,22 +30,22 @@ public class Calculations {
      * @param day день начала срока.
      * @return мапу с двумя датами,
      */
-    public Map<String, String> calcTerm(Integer id, Integer year, Integer month, Integer day) {
-        int verdict = getVerdict(id);
-        Calendar startDate = new GregorianCalendar(); // Дата начала срока заключения.
-        Calendar endDate; // Дата конца срока заключения.
-        startDate.set(Calendar.YEAR, year);
-        startDate.set(Calendar.MONTH, month);
-        startDate.set(Calendar.DAY_OF_MONTH, day);
+    public Map<String, String> calcTerm(Integer id, Integer year, Integer month, Integer day) throws SQLException {
+        LocalDate incarcerationDate = LocalDate.of(year, month, day); // Установил дату начала срока.
+        LocalDate releaseDate = LocalDate.of(year + getVerdict(id), month, day); // Установил дату конца срока.
 
-        String incarcerationDate = startDate.getTime().toString(); // Перевод даты в строковый формат.
-        startDate.roll(Calendar.YEAR, + verdict); // Прибавление verdict'а к году начала заключения.
-        endDate = startDate;
-        String releaseDate = endDate.getTime().toString(); // Перевод даты в строковый формат.
+        String startDate = incarcerationDate.toString();
+        String endDate = releaseDate.toString();
+
+        Boolean checkStartDate = checkString(startDate);
+        Boolean checkEndDate = checkString(endDate);
+        // Обновление таблицы
+        prisonerRepository.updateTable("startDate", startDate, checkStartDate, id);
+        prisonerRepository.updateTable("endDate", endDate, checkEndDate, id);
 
         Map<String, String> dates = new HashMap<>();
-        dates.put("start", incarcerationDate);
-        dates.put("end", releaseDate);
+        dates.put("start", startDate);
+        dates.put("end", endDate);
         return dates;
     }
 
@@ -58,42 +57,27 @@ public class Calculations {
      *
      * @param id идентификатор.
      */
-    public void releasePrison(Integer id) throws ParseException, SQLException {
-        DateFormat format = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.ENGLISH);
-        Calendar todayDate = new GregorianCalendar(); // Сегодняшняя дата.
-        Calendar endDate = new GregorianCalendar();
+    public void releasePrisoner(Integer id) throws SQLException {
+        LocalDate ldt = LocalDate.now(); // Создаем дату сегодняшнего дня.
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH);
+        String formatter = format.format(ldt); // Парсим её в строку.
+        String endDate = getEndDate(id); // Получаем дату конца срока.
+        if (formatter.equals(endDate)) {
+                String statusJail = "false";
+                String age = getAge(id) + getVerdict(id).toString();
+                String verdict = "0";
 
-        String releaseDate; // Дата выхода.
-        String date = todayDate.getTime().toString(); // Перевод даты в строку.
-        todayDate.setTime(format.parse(date)); // Парсинг сегодняшней даты в нужный формат.
-        releaseDate = getEndDate(id); // Получить дату конца срока.
-        endDate.setTime(format.parse(releaseDate));
-
-        int todayYear = todayDate.get(Calendar.YEAR);
-        int todayMonth = todayDate.get(Calendar.MONTH);
-        int todayDay = todayDate.get(Calendar.DAY_OF_MONTH);
-
-        int endYear = endDate.get(Calendar.YEAR);
-        int endMonth = endDate.get(Calendar.MONTH);
-        int endDay = endDate.get(Calendar.DAY_OF_MONTH);
-
-        // Сравнение дат, если даты равны, то меняем информацию в столбцах заключенного.
-        if ((todayYear == endYear && todayMonth == endMonth && todayDay == endDay)) {
-            String statusJail = "false";
-            String age = getAge(id) + getVerdict(id).toString();
-            String verdict = "0";
-
-            Boolean checkStatus = checkString(statusJail);
-            Boolean checkAge = checkString(age);
-            Boolean checkVerdict = checkString(verdict);
+                Boolean checkStatus = checkString(statusJail);
+                Boolean checkAge = checkString(age);
+                Boolean checkVerdict = checkString(verdict);
 
             prisonerRepository.updateTable("inJail", statusJail, checkStatus, id);
             prisonerRepository.updateTable("age", age, checkAge, id);
             prisonerRepository.updateTable("verdict", verdict, checkVerdict, id);
 
-            System.out.println("Заключенный №" + id + " завершил срок, можно удалить из БД");
+            System.out.println("Заключенный освобожден!");
         } else {
-            System.out.println("Заключенный № " + id + " ещё должен отсидеть");
+            System.out.println("Заключенный должен ещё отсидеть!");
         }
     }
 
