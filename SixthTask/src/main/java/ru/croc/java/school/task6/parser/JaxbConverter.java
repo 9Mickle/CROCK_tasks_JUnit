@@ -42,6 +42,4 @@ public class JaxbConverter {
         mapper.enable(SerializationFeature.INDENT_OUTPUT); // форматирование вывода
         return mapper;
     }
-
-
 }
