@@ -37,8 +37,8 @@ public class Calculations {
         String startDate = incarcerationDate.toString();
         String endDate = releaseDate.toString();
 
-        Boolean checkStartDate = checkString(startDate);
-        Boolean checkEndDate = checkString(endDate);
+        Boolean checkStartDate = test.checkString.check(startDate);
+        Boolean checkEndDate = test.checkString.check(endDate);
         // Обновление таблицы
         prisonerRepository.updateTable("startDate", startDate, checkStartDate, id);
         prisonerRepository.updateTable("endDate", endDate, checkEndDate, id);
@@ -67,9 +67,9 @@ public class Calculations {
             String age = getAge(id) + getVerdict(id).toString();
             String verdict = "0";
 
-            Boolean checkStatus = checkString(statusJail);
-            Boolean checkAge = checkString(age);
-            Boolean checkVerdict = checkString(verdict);
+            Boolean checkStatus = test.checkString.check(statusJail);
+            Boolean checkAge = test.checkString.check(age);
+            Boolean checkVerdict = test.checkString.check(verdict);
             // Обновление таблицы
             prisonerRepository.updateTable("inJail", statusJail, checkStatus, id);
             prisonerRepository.updateTable("age", age, checkAge, id);
@@ -109,14 +109,5 @@ public class Calculations {
      */
     public String getEndDate(Integer id) {
         return prisonerRepository.getPrisoner(id).get(0).getEndDate();
-    }
-
-    private Boolean checkString(String someString) {
-        try {
-            Integer.parseInt(someString);
-            return true;
-        } catch (NumberFormatException e) {
-            return false;
-        }
     }
 }

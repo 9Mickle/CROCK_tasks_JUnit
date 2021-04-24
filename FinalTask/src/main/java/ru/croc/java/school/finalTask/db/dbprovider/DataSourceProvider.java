@@ -1,4 +1,4 @@
-package ru.croc.java.school.task7.dbprovider;
+package ru.croc.java.school.finalTask.db.dbprovider;
 
 import org.apache.derby.jdbc.EmbeddedDataSource;
 
@@ -10,7 +10,7 @@ import java.util.Properties;
 public class DataSourceProvider {
 
     /**
-     * Data source.
+     * Подключение.
      */
     private EmbeddedDataSource dataSource;
 
@@ -19,6 +19,7 @@ public class DataSourceProvider {
      */
     private Map<String, String> properties = new HashMap<>();
 
+    /** Конструктор принимающий путь к файлу для загрузки свойств.*/
     public DataSourceProvider() throws IOException {
         loadProperties();
     }
@@ -29,7 +30,7 @@ public class DataSourceProvider {
         Properties properties = new Properties();
         try {
             properties.load(
-                    Thread.currentThread().getContextClassLoader().getResourceAsStream("application.properties"));
+                    Thread.currentThread().getContextClassLoader().getResourceAsStream("city.properties"));
             for (Map.Entry<Object, Object> entry : properties.entrySet()) {
                 this.properties.put((String) entry.getKey(), (String) entry.getValue());
             }

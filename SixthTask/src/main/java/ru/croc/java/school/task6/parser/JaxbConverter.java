@@ -37,8 +37,11 @@ public class JaxbConverter {
      */
     private XmlMapper createXmlMapper() {
         final XmlMapper mapper = new XmlMapper();
+        mapper.setDefaultUseWrapper(false);
         mapper.registerModule(new JaxbAnnotationModule()); // модуль jaxb
         mapper.enable(SerializationFeature.INDENT_OUTPUT); // форматирование вывода
         return mapper;
     }
+
+
 }
