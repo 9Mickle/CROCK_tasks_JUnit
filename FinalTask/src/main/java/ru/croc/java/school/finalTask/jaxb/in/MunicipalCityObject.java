@@ -10,9 +10,15 @@ import java.util.Objects;
 @XmlRootElement()
 public class MunicipalCityObject {
 
+    /**
+     * Лист с муниципальными объектами.
+     */
     @XmlElement(name = "Object")
     private List<MunicipalObject> municipalObjects = new ArrayList<>();
 
+    /**
+     * Констурктор городского муниципального объекта.
+     */
     public MunicipalCityObject() {
     }
 

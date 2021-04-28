@@ -32,9 +32,20 @@ public class MunicipalObject {
     @JsonSerialize(using = LocalTimeSerializer.class)
     private LocalTime endTime;
 
+    /**
+     * Конструктор муниципального объекта.
+     */
     public MunicipalObject() {
     }
 
+    /**
+     * Конструктор муниципального объекта.
+     *
+     * @param title Название.
+     * @param description Описание.
+     * @param startTime Время открытия.
+     * @param endTime Время закрытия.
+     */
     public MunicipalObject(String title, String description, LocalTime startTime, LocalTime endTime) {
         this.title = title;
         this.description = description;

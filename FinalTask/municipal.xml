@@ -1,0 +1,14 @@
+<MunicipalCityObject>
+    <Object>
+        <title>Hospital</title>
+        <description>Here you will be cured</description>
+        <startTime>08:00</startTime>
+        <endTime>23:00</endTime>
+    </Object>
+    <Object>
+        <title>City hall</title>
+        <description>Here you can discuss important issues</description>
+        <startTime>08:00</startTime>
+        <endTime>17:00</endTime>
+    </Object>
+</MunicipalCityObject>

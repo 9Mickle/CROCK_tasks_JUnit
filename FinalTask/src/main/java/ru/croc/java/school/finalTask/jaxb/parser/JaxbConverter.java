@@ -4,15 +4,21 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.fasterxml.jackson.module.jaxb.JaxbAnnotationModule;
-import ru.croc.java.school.finalTask.jaxb.in.*;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
+import java.util.HashMap;
+import java.util.Map;
 
+/**
+ * Конвертер.
+ */
 public class JaxbConverter {
 
     /**
-     * Сериализует объект в xml.
+     * Метод сериализации объекта в xml.
      *
      * @param data объект
      * @return xml
@@ -22,7 +28,7 @@ public class JaxbConverter {
     }
 
     /**
-     * Десериализация из xml.
+     * Метод десериализации объекта из xml.
      *
      * @param xml xml
      * @param type тип объекта
@@ -34,7 +40,7 @@ public class JaxbConverter {
     }
 
     /**
-     * Создаём настроенный mapper JAXB.
+     * Метод создания настроенного mapper JAXB.
      * @return mapper
      */
     private XmlMapper createXmlMapper() {
@@ -47,31 +53,33 @@ public class JaxbConverter {
         return mapper;
     }
 
-    /**
-     * Метод конвертации досуговых объектов в xml.
-     *
-     * @return досуговые объекты в виде строки xml.
-     */
-    public String giveXmlLeisure() throws JsonProcessingException {
-        final LeisureCityObject leisureCityObjects = new LeisureCityObject();
-        InListObject inListObject = new InListObject();
-
-        leisureCityObjects.setLeisureObjects(inListObject.addListLeisureObject()); // Добавил список досуговых объектов.
-        final JaxbConverter converter = new JaxbConverter();
-        return converter.toXml(leisureCityObjects); // Возвращает строку.
-    }
 
     /**
-     * Метод конвертации муниципальных объектов в xml.
+     * Метод запсии двух файлов xml в строку.
      *
-     * @return муниципальные объекты в виде строки xml.
+     * @return Мапу с двумя объектами в виде строки.
      */
-    public String giveXmlMunicipal() throws JsonProcessingException {
-        final MunicipalCityObject municipalCityObjects = new MunicipalCityObject();
-        InListObject inListObject = new InListObject();
+    public Map<String, String> recordFileToString() {
 
-        municipalCityObjects.setMunicipalObjects(inListObject.addListMunicipalObject()); // Добавил список муниципальных объектов.
-        final JaxbConverter converter = new JaxbConverter();
-        return converter.toXml(municipalCityObjects); // Возвращает строку.
+        /**
+         * Имя xml файла с досуговыми объектами города.
+         */
+        final String path1 = "leisure.xml";
+
+        /**
+         * Имя xml файла с муниципальными объектами города.
+         */
+        final String path2 = "municipal.xml";
+
+        try {
+            Map<String, String> listObject = new HashMap<>();
+            listObject.put("leisure", new String(Files.readAllBytes(Paths.get(path1))));
+            listObject.put("municipal", new String(Files.readAllBytes(Paths.get(path2))));
+            return listObject;
+        } catch (IOException e) {
+            System.err.println("Не удалось найти файл");
+            e.printStackTrace();
+        }
+        return new HashMap<>();
     }
 }

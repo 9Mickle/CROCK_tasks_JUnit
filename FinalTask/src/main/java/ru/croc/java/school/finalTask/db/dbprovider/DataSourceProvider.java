@@ -7,6 +7,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
+/**
+ * Провайдер.
+ */
 public class DataSourceProvider {
 
     /**
@@ -40,6 +43,11 @@ public class DataSourceProvider {
         }
     }
 
+    /**
+     * Получить данные с файла о БД.(Название, логин, пароль).
+     *
+     * @return данные для инициализации талицы.
+     */
     public EmbeddedDataSource getDataSource() {
 
         if (dataSource == null) {

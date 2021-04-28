@@ -18,10 +18,45 @@ public class CityObjectRepository {
     private static final String TABLE_NAME = "city";
 
     /**
+     * Название столбца с уникальным идентификатором объекта.
+     */
+    private static final String ID = "id";
+
+    /**
+     * Название столбца с типом объекта.
+     */
+    private static final String TYPE = "type";
+
+    /**
+     * Название столбца с названием объекта.
+     */
+    private static final String TITLE = "title";
+
+    /**
+     * Название столбца с описанием объекта.
+     */
+    private static final String DESCRIPTION = "description";
+
+    /**
+     * Название столбца со временем начала работы объекта.
+     */
+    private static final String STARTWORK = "startWork";
+
+    /**
+     * Название столбца со временем конца рабочего дня объекта.
+     */
+    private static final String ENDWORK = "endWork";
+
+    /**
      * Подключение.
      */
     private final EmbeddedDataSource dataSource;
 
+    /**
+     * Конструктор репозитория.
+     *
+     * @param dataSource данные для инициализации таблицы.
+     */
     public CityObjectRepository(EmbeddedDataSource dataSource) {
         this.dataSource = dataSource;
         initTable();
@@ -32,8 +67,11 @@ public class CityObjectRepository {
      */
     private void initTable() {
         System.out.println(String.format("Начать инициализацию %s таблицы", TABLE_NAME));
-        try (Connection connection = dataSource.getConnection();
-             Statement statement = connection.createStatement()) {
+        try (Connection connection =
+                     dataSource.getConnection();
+             Statement statement =
+                     connection.createStatement()) {
+
             DatabaseMetaData databaseMetadata = connection.getMetaData();
             ResultSet resultSet = databaseMetadata.getTables(
                     null,
@@ -47,14 +85,15 @@ public class CityObjectRepository {
                         "CREATE TABLE "
                                 + TABLE_NAME
                                 + " ("
-                                + "id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),"
-                                + "type VARCHAR (255),"
-                                + "title VARCHAR (255),"
-                                + "description VARCHAR (255),"
-                                + "startWork TIME,"
-                                + "endWork TIME"
+                                + ID + " INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),"
+                                + TYPE + " VARCHAR (255),"
+                                + TITLE + " VARCHAR (255),"
+                                + DESCRIPTION + " VARCHAR (255),"
+                                + STARTWORK + " TIME,"
+                                + ENDWORK + " TIME"
                                 + ")");
                 System.out.println("Таблица была успешно инициализирована");
+                resultSet.close();
             }
         } catch (SQLException e) {
             System.out.println("Произошла ошибка при инициализации таблицы: " + e.getMessage());
@@ -66,11 +105,14 @@ public class CityObjectRepository {
     /**
      * Метод поиска всех объектов в БД. (Read)
      *
-     * @return список всех объектов.
+     * @return Список всех объектов.
      */
     public List<CityObject> findAll() {
-        try (Connection connection = dataSource.getConnection();
-             Statement statement = connection.createStatement()) {
+        try (Connection connection =
+                     dataSource.getConnection();
+             Statement statement =
+                     connection.createStatement()) {
+
             ResultSet resultSet = statement.executeQuery("SELECT * FROM " + TABLE_NAME);
             List<CityObject> cityObjects = new ArrayList<>();
             while (resultSet.next()) {
@@ -84,21 +126,28 @@ public class CityObjectRepository {
                                 resultSet.getTime("endWork")));
 
             }
+            resultSet.close();
             return cityObjects;
         } catch (SQLException e) {
-            e.getMessage();
+            System.err.println("Невозможно обратится к таблице");
+            e.printStackTrace();
         }
         return new ArrayList<>();
     }
 
     /**
      * Метод создания записи о новом объекте в БД. (Create)
+     *
+     * @param cityObject городской Объект.
      */
     public void createNew(CityObject cityObject) throws SQLException {
-        String sqlQuery = "INSERT INTO " + TABLE_NAME + "(type, title, description, startWork, endWork)" +
-                "Values(?, ?, ?, ?, ?)";
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sqlQuery)) {
+        String sqlQuery =
+                "INSERT INTO " + TABLE_NAME + "(type, title, description, startWork, endWork)" + "Values(?, ?, ?, ?, ?)";
+        try (Connection connection =
+                     dataSource.getConnection();
+             PreparedStatement statement =
+                     connection.prepareStatement(sqlQuery)) {
+
             statement.setString(1, cityObject.getType());
             statement.setString(2, cityObject.getTitle());
             statement.setString(3, cityObject.getDescription());
@@ -106,60 +155,76 @@ public class CityObjectRepository {
             statement.setString(5, cityObject.getEndWork().toString());
             statement.execute();
         } catch (SQLException e) {
-            throw e;
+            System.err.println("Невозможно добавить объект в таблицу");
+            e.printStackTrace();
         }
     }
 
     /**
-     * Удалить запись об объекте из БД. (Delete)
+     * Метод удаления записи об объекте из БД. (Delete)
      *
      * @param id Идентификатор объекта.
      */
     public void deleteRecord(Integer id) throws SQLException {
         String sqlQuery = "DELETE FROM " + TABLE_NAME + " WHERE id=" + id;
-        try (Connection connection = dataSource.getConnection();
-             Statement statement = connection.createStatement()) {
+        try (Connection connection =
+                     dataSource.getConnection();
+             Statement statement =
+                     connection.createStatement()) {
+
             statement.executeUpdate(sqlQuery);
         } catch (SQLException e) {
-            throw e;
+            System.err.println("Невозможно обратится к таблице");
+            e.printStackTrace();
         }
     }
 
     /**
-     * Обновить БД, после изменения какой-либо записи об объекте в БД. (Update)
+     * Метод обновления записи об объекте в БД, после изменения какого-либо столбца таблицы. (Update)
      *
-     * @param columnTitle Имя столбца в БД.
-     * @param result Параметр, на который будет изменён столбец.
+     * @param columnTitle Название столбца в таблице.
+     * @param result Значение, на которое будет изменена строка объекта в таблице.
      * @param id Идентификатор объекта.
      * @return Лист с изменненым объектом.
      */
     public List<CityObject> updateTable(String columnTitle, String result, Boolean chek, Integer id) throws SQLException {
         String sqlUpdateQuery;
+
         // Если получили true, то формируем SQL запрос под число.
-        // Если получили false, то форммируем SQL запрос под строку.
         if (chek) {
             int number = Integer.parseInt(result);
-            sqlUpdateQuery = "UPDATE " + TABLE_NAME + " SET " + columnTitle + "=" + number + " WHERE id=" + id;
+            sqlUpdateQuery =
+                    "UPDATE " + TABLE_NAME + " SET " + columnTitle + "=" + number + " WHERE id=" + id;
+            // Если получили false, то форммируем SQL запрос под строку.
         } else {
-            sqlUpdateQuery = "UPDATE " + TABLE_NAME + " SET " + columnTitle + "=" + "'" + result + "'" + " WHERE id=" + id;
+            sqlUpdateQuery =
+                    "UPDATE " + TABLE_NAME + " SET " + columnTitle + "=" + "'" + result + "'" + " WHERE id=" + id;
         }
-        try (Connection connection = dataSource.getConnection();
-             Statement statement = connection.createStatement()) {
+        try (Connection connection =
+                     dataSource.getConnection();
+             Statement statement =
+                     connection.createStatement()) {
+
             statement.executeUpdate(sqlUpdateQuery);
         } catch (SQLException e) {
-            throw e;
+            System.err.println("Невозможно обновить таблицу");
+            e.printStackTrace();
         }
         return selectObject(id);
     }
 
     /**
-     * Получить объект по id.
+     * Метод получения объекта по id.
      *
      * @param id Идентификатор объекта.
+     * @return Лист с выбранным объектом.
      */
     public List<CityObject> selectObject(Integer id) {
-        try(Connection connection = dataSource.getConnection();
-            Statement statement = connection.createStatement()) {
+        try(Connection connection =
+                    dataSource.getConnection();
+            Statement statement =
+                    connection.createStatement()) {
+
             List<CityObject> list = new ArrayList<>();
             ResultSet resultSet = statement.executeQuery("SELECT * FROM " + TABLE_NAME + " WHERE id=" + id);
             while (resultSet.next()) {
@@ -172,20 +237,28 @@ public class CityObjectRepository {
                                 resultSet.getTime("startWork"),
                                 resultSet.getTime("endWork")));
             }
+            resultSet.close();
             return list;
         } catch (SQLException e) {
+            System.err.println("Невозможно обратится к таблице");
             e.printStackTrace();
         }
         return new ArrayList<>();
     }
 
     /**
-     * Удалить таблицу БД.
+     * Метод удаления таблицы в БД.
      */
-    public void dropTable() throws SQLException {
-        try(Connection connection = dataSource.getConnection();
-        Statement statement = connection.createStatement()) {
+    public void dropTable() {
+        try(Connection connection =
+                    dataSource.getConnection();
+        Statement statement =
+                connection.createStatement()) {
+
          statement.execute("DROP TABLE " + TABLE_NAME);
+        } catch (SQLException e) {
+            System.err.println("Не возмножно обратится к таблице");
+            e.printStackTrace();
         }
     }
 }

@@ -10,9 +10,15 @@ import java.util.Objects;
 @XmlRootElement
 public class LeisureCityObject {
 
+    /**
+     * Лист с досуговыми объектами.
+     */
     @XmlElement(name = "Object")
     private List<LeisureObject> leisureObjects = new ArrayList<>();
 
+    /**
+     * Конструктор городского досугового объекта.
+     */
     public LeisureCityObject() {
     }
 

@@ -16,6 +16,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Тесты класса CityObjectService.
+ */
 class CityObjectServiceTest {
 
     DataSourceProvider dataSourceProvider;

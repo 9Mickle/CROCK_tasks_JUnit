@@ -12,10 +12,31 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Тесты класса JaxbConverter.
+ */
 class JaxbConverterTest {
 
+    /**
+     * Тест на получение муниципальных объектов из xml.
+     */
     @Test
     public void jaxbConverterMunicipal() throws IOException {
+        String xml = "<MunicipalCityObject>\n" +
+                "  <Object>\n" +
+                "    <title>Hospital</title>\n" +
+                "    <description>Here you will be cured</description>\n" +
+                "    <startTime>08:00</startTime>\n" +
+                "    <endTime>23:00</endTime>\n" +
+                "  </Object>\n" +
+                "  <Object>\n" +
+                "    <title>City hall</title>\n" +
+                "    <description>Here you can discuss important issues</description>\n" +
+                "    <startTime>08:00</startTime>\n" +
+                "    <endTime>17:00</endTime>\n" +
+                "  </Object>\n" +
+                "</MunicipalCityObject>";
+
         final MunicipalCityObject municipalCityObjects = new MunicipalCityObject();
 
         List<MunicipalObject> municipalObjects = new ArrayList<>();
@@ -26,14 +47,30 @@ class JaxbConverterTest {
         municipalCityObjects.setMunicipalObjects(municipalObjects);
 
         final JaxbConverter converter = new JaxbConverter();
-        final String xml = converter.toXml(municipalCityObjects);
         System.out.println(xml);
 
         Assertions.assertEquals(municipalCityObjects, converter.fromXml(xml, MunicipalCityObject.class));
     }
 
+    /**
+     * Тест на получение досуговых объектов из xml.
+     */
     @Test
     public void jaxbConverterLeisure() throws IOException {
+        String xml = "<LeisureCityObject>\n" +
+                "    <Object>\n" +
+                "        <title>Cinema</title>\n" +
+                "        <description>Here you can watch movies</description>\n" +
+                "        <startTime>10:00</startTime>\n" +
+                "        <endTime>22:00</endTime>\n" +
+                "    </Object>\n" +
+                "    <Object>\n" +
+                "        <title>Bowling</title>\n" +
+                "        <description>Here you can play bowling and have a drink</description>\n" +
+                "        <startTime>12:00</startTime>\n" +
+                "        <endTime>03:00</endTime>\n" +
+                "    </Object>\n" +
+                "</LeisureCityObject>";
         final LeisureCityObject leisureCityObjects = new LeisureCityObject();
 
         List<LeisureObject> leisureObjects = new ArrayList<>();
@@ -44,7 +81,6 @@ class JaxbConverterTest {
         leisureCityObjects.setLeisureObjects(leisureObjects);
 
         final JaxbConverter converter = new JaxbConverter();
-        final String xml = converter.toXml(leisureCityObjects);
         System.out.println(xml);
 
         Assertions.assertEquals(leisureCityObjects, converter.fromXml(xml, LeisureCityObject.class));

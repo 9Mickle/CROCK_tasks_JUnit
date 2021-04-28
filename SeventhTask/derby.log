@@ -1,0 +1,13 @@
+----------------------------------------------------------------
+Sat Apr 24 18:04:38 MSK 2021:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.12.1.1 - (1704137): instance a816c00e-0179-0469-43fd-00000c9849a0 
+on database directory C:\Users\Миша\IdeaProjects\homeWork\SeventhTask\prisoner_db with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@6ed3ef1 
+Loaded from file:/C:/Users/%d0%9c%d0%b8%d1%88%d0%b0/.m2/repository/org/apache/derby/derby/10.12.1.1/derby-10.12.1.1.jar
+java.vendor=Oracle Corporation
+java.runtime.version=11.0.9+7-LTS
+user.dir=C:\Users\Миша\IdeaProjects\homeWork\SeventhTask
+os.name=Windows 10
+os.arch=amd64
+os.version=10.0
+derby.system.home=null
+Database Class Loader started - derby.database.classpath=''

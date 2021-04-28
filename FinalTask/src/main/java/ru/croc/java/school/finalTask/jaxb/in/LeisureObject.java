@@ -20,21 +20,32 @@ public class LeisureObject {
     @XmlElement
     private String description;
 
-    /** Время начала рабочего  работы.*/
+    /** Время открытия.*/
     @XmlElement(name="startTime")
     @JsonDeserialize(using = LocalTimeDeserializer.class)
     @JsonSerialize(using = LocalTimeSerializer.class)
     private LocalTime startTime;
 
-    /** Время конца рабочего  работы.*/
+    /** Время закрытия.*/
     @XmlElement(name="endTime")
     @JsonDeserialize(using = LocalTimeDeserializer.class)
     @JsonSerialize(using = LocalTimeSerializer.class)
     private LocalTime endTime;
 
+    /**
+     * Конструктор досугового объекта.
+     */
     public LeisureObject() {
     }
 
+    /**
+     * Конструктор досугового объекта.
+     *
+     * @param title Название.
+     * @param description Описание.
+     * @param startTime Время открытия.
+     * @param endTime Время закрытия.
+     */
     public LeisureObject(String title, String description, LocalTime startTime, LocalTime endTime) {
         this.title = title;
         this.description = description;

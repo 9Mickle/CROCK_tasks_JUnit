@@ -1,0 +1,14 @@
+<LeisureCityObject>
+    <Object>
+        <title>Cinema</title>
+        <description>Here you can watch movies</description>
+        <startTime>10:00</startTime>
+        <endTime>22:00</endTime>
+    </Object>
+    <Object>
+        <title>Bowling</title>
+        <description>Here you can play bowling and have a drink</description>
+        <startTime>12:00</startTime>
+        <endTime>03:00</endTime>
+    </Object>
+</LeisureCityObject>

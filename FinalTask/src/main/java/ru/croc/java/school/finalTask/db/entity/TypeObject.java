@@ -1,5 +1,8 @@
 package ru.croc.java.school.finalTask.db.entity;
 
+/**
+ * Тип городского объекта.
+ */
 public enum TypeObject {
 
     MUNICIPAL("Municipal"), // Муниципальный объект.

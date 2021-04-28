@@ -15,6 +15,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Тесты класса CityObjectRepository.
+ */
 class CityObjectRepositoryTest {
 
     DataSourceProvider dataSourceProvider;
@@ -130,12 +133,8 @@ class CityObjectRepositoryTest {
     public void dropTable() {
         List<CityObject> list = new ArrayList<>();
         List<CityObject> expectedList;
-        try {
-            cityObjectRepository.dropTable();
-            expectedList = cityObjectRepository.findAll();
-            Assertions.assertEquals(expectedList, list);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        cityObjectRepository.dropTable();
+        expectedList = cityObjectRepository.findAll();
+        Assertions.assertEquals(expectedList, list);
     }
 }
