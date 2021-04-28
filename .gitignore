@@ -2,3 +2,5 @@ target
 *.iml
 out
 .idea
+.log
+city_db
